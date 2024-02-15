@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon</title>
+    <link rel="stylesheet" type="text/css" href="pokemon.css">
+</head>
+
+
+<body>
+  
+    <h1>Pokemon</h1>
+    <button onclick="GetAllPokemon()" >Display All Pokemon</button>
+    
+    <div id="container">
+       
+       <div id="newRow">
+           <input type="hidden" id="total" value="0"  />
+       </div>
+    </div>
+
+  
+
+
+<script>
+    async function GetAllPokemon(){
+        let response;
+        let html = "<ul>";
+        let newRow;     
+        let data;
+        let pokemonSprite;
+
+
+        for(let i=1 ; i<400 ; i++)
+        {
+            response = await fetch (`https://pokeapi.co/api/v2/pokemon/${i.toString()}`);            
+         
+            if(!response.ok)
+            {
+              throw new Error("Could not fetch resource");
+            }
+            data = await response.json();
+            pokemonSprite = data.sprites.front_default;
+
+            html +=  `<li >  `;
+            html +=  ` <span  class="pokeChar" id="pokeChar${i}">        `;
+            
+            html +=  `    <a id="nameLink${i}">   ${data.name}  </a>  `;
+            html +=  `    <img   src="${pokemonSprite}"   id="imgTag${i}"   />    `;
+             
+            html +=  ` </span>    `;
+            html  +=  `</li>  `;
+           
+        }
+        html +=   `</ul>  `;
+        document.getElementById("newRow").innerHTML = html;
+    }  
+
+</script>
+
+</body>
+</html>
